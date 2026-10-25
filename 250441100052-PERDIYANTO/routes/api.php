@@ -3,9 +3,11 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\BukuController;
-
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+use App\Http\Controllers\Api\RekapController;
 
 Route::apiResource('buku', BukuController::class)->names('api.buku');
+
+Route::prefix('rekap')->group(function () {
+    Route::get('buku-per-kategori', [RekapController::class, 'bukuPerKategori']);
+    Route::get('pemminjaman-per-buku', [RekapController::class, 'peminjamanPerBuku']);
+});
