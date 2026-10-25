@@ -1,10 +1,10 @@
-# 🚀 Repositori Praktikum Pemrograman Berbasis Web Lanjut - 3C - 2026
+# Repositori Praktikum Pemrograman Berbasis Web Lanjut - 3C - 2026
 
 Selamat datang di repositori resmi praktikum **Pemrograman Berbasis Web Lanjut (PBWL) Kelas 3C**. Repositori ini digunakan oleh seluruh mahasiswa untuk mengumpulkan penugasan praktikum berbasis framework **Laravel 13** melalui sistem **Fork & Pull Request (PR)**.
 
 ---
 
-## 🛠️ Prasyarat Sistem (Laravel 13 Requirements)
+## Prasyarat Sistem
 
 Sebelum menjalankan proyek, pastikan perangkat lokal Anda telah memenuhi prasyarat **Laravel 13**:
 - **PHP**: `>= 8.3` (Disarankan PHP 8.3 atau 8.4)
@@ -14,30 +14,34 @@ Sebelum menjalankan proyek, pastikan perangkat lokal Anda telah memenuhi prasyar
 
 ---
 
-## 📌 Aturan Praktikum & Larangan
+## Aturan Praktikum
 
 1. **Satu Proyek Per Mahasiswa**: Setiap folder mahasiswa (berformat `{NIM}-{NAMA LENGKAP}`) merupakan **satu proyek Laravel**. Tidak perlu membuat subfolder per modul di dalamnya.
 2. **Format Commit Message (WAJIB)**:
-   Pengerjaan setiap modul ditandai melalui format pesan commit sebagai berikut:
+   Pengerjaan setiap modul ditandai melalui format pesan commit:
    ```text
    NIM_NamaLengkap_MODUL<X>_NamaAsprak
    ```
-   **Contoh Commit:**
-   `240441100057_OktaviaPutriRoichatulJannah_MODUL1_KakSalman`
+   **Contoh Commit Sesuai Asprak Pengampu:**
+   - Asprak Kak Okta: `250441100011_MithaAuliaNisrina_MODUL1_KakOkta`
+   - Asprak Kak Destya: `250441100052_Perdiyanto_MODUL2_KakDestya`
+   - Asprak Kak Edi: `250441100125_IntanNuraini_MODUL3_KakEdi`
 
-3. **File yang Dilarang Diumpan ke Git (Git Ignore)**:
-   - ❌ **DILARANG** meng-push folder `vendor/`
-   - ❌ **DILARANG** meng-push folder `node_modules/`
-   - ❌ **DILARANG** meng-push file `.env`
-   - ✅ Root `.gitignore` dan `.gitignore` lokal akan otomatis mencegah file ini ter-push.
+3. **Integritas dan Keamanan Repositori**:
+   > [!IMPORTANT]
+   > Dilarang mengunggah file sensitif dan build artifacts:
+   > - Folder `vendor/`
+   > - Folder `node_modules/`
+   > - File konfigurasi `.env`
+   >
+   > File dan folder tersebut telah dicegah otomatis oleh file `.gitignore`.
 
-4. **Integritas Repositori**:
-   - Mahasiswa **HANYA BOLEH** mengedit dan meng-push file di dalam folder milik sendiri.
-   - **Dilarang** mengedit folder mahasiswa lain atau file root (`README.md`, `.github/`, dll). PR yang melanggar akan otomatis ditolak oleh sistem CI.
+   > [!WARNING]
+   > Mahasiswa **hanya boleh** mengedit dan meng-push file di dalam folder milik sendiri. Mengedit folder mahasiswa lain atau file root (`README.md`, `.github/`, dll.) akan menyebabkan pengujian Pull Request otomatis gagal.
 
 ---
 
-## 📂 Struktur Direktori Repositori
+## Struktur Direktori Repositori
 
 ```text
 Pemrograman-Berbasis-Web-Lanjut-3C-2026/
@@ -60,7 +64,7 @@ Pemrograman-Berbasis-Web-Lanjut-3C-2026/
 
 ---
 
-## 💻 Panduan Git Workflow (Fork & Pull Request)
+## Panduan Git Workflow (Fork & Pull Request)
 
 Seluruh pengumpulan tugas praktikum dilakukan menggunakan skema **Fork & Pull Request**:
 
@@ -87,8 +91,8 @@ Setelah selesai mengerjakan modul:
 # 1. Tambahkan perubahan di folder Anda
 git add .
 
-# 2. Commit dengan format WAJIB (NIM_NamaLengkap_MODUL<X>_NamaAsprak)
-git commit -m "240441100057_OktaviaPutriRoichatulJannah_MODUL1_KakSalman"
+# 2. Commit dengan format WAJIB (pilih sesuai nama asprak pengampu Anda)
+git commit -m "250441100011_MithaAuliaNisrina_MODUL1_KakOkta"
 
 # 3. Push ke repositori Fork milik Anda
 git push origin main
@@ -98,19 +102,21 @@ git push origin main
 1. Buka repositori hasil Fork Anda di GitHub.
 2. Klik tombol **Contribute** -> **Open Pull Request**.
 3. Pastikan **Base Repository** mengarah ke `main` di repositori utama praktikum.
-4. Berikan Judul PR yang jelas (contoh: `NIM_NamaLengkap_MODUL<X>_NamaAsprak`).
+4. Berikan Judul PR sesuai format commit (contoh: `250441100011_MithaAuliaNisrina_MODUL1_KakOkta`).
 5. Klik **Create Pull Request**.
 
-> 🤖 **Sistem GitHub Actions (CI) akan otomatis mengecek PR Anda:**
-> - ✅ Memeriksa apakah Anda hanya mengubah folder milik Anda sendiri.
-> - ✅ Memeriksa apakah format pesan commit Anda sudah benar.
-> - ✅ Memeriksa apakah ada sintaks PHP yang error.
+> [!NOTE]
+> **Sistem GitHub Actions (CI) akan otomatis mengecek PR Anda:**
+> - Memeriksa apakah Anda hanya mengubah folder milik Anda sendiri.
+> - Memeriksa apakah format pesan commit Anda sudah sesuai standar.
+> - Memeriksa apakah ada sintaks PHP yang error.
+> - Menambahkan label dan menetapkan peninjau (reviewer) sesuai nama Asprak pada judul/commit secara otomatis.
 
 ---
 
-## ⚡ Cara Menjalankan Proyek Laravel 13 (Untuk Asprak)
+## Panduan Menjalankan Proyek (Untuk Pengujian & Asprak)
 
-Jika Asisten Praktikum ingin mengecek atau menguji proyek milik mahasiswa:
+Jika ingin menjalankan atau menguji proyek milik mahasiswa secara lokal:
 
 1. Masuk ke direktori mahasiswa yang dituju:
    ```bash
@@ -121,31 +127,31 @@ Jika Asisten Praktikum ingin mengecek atau menguji proyek milik mahasiswa:
    composer install
    npm install && npm run build
    ```
-3. Salin file `.env` & Generate Application Key:
+3. Salin konfigurasi environment & generate application key:
    ```bash
    cp .env.example .env
    php artisan key:generate
    ```
-4. Jalankan Migrasi Database & Seeder:
+4. Jalankan migrasi database & seeder:
    ```bash
    php artisan migrate --seed
    ```
-5. Menjalankan Server Development:
+5. Jalankan development server:
    ```bash
    php artisan serve
    ```
 
 ---
 
-## 🙋‍♂️ Daftar Asisten Praktikum
+## Daftar Asisten Praktikum
 
 Gunakan nama panggilan Asprak di bawah ini saat melakukan commit:
 
 | No | Nama Lengkap Asprak | Nama Panggilan Commit (`NamaAsprak`) |
 |:--:|:--------------------|:------------------------------------|
-| 1  | Oktavia Putri Roichatul Jannah          | `KakOkta`                         |
-| 2  | Destya Nurfaiza Muslim          | `KakDestya`                     |
-| 3  | Edi Putra          | `KakEdi`                     |
+| 1  | Oktavia Putri Roichatul Jannah | `KakOkta` |
+| 2  | Destya Nurfaiza Muslim | `KakDestya` |
+| 3  | Edi Putra | `KakEdi` |
 
 ---
 

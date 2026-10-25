@@ -1,0 +1,140 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f1f5f9;
+    color: #1e293b;
+}
+
+
+header {
+    background: #0f766e;
+    color: white;
+    text-align: center;
+    padding: 30px;
+}
+
+header h1 {
+    margin: 0;
+}
+
+
+nav {
+    background: white;
+    text-align: center;
+    padding: 15px;
+    box-shadow: 0 2px 5px #ddd;
+}
+
+nav a {
+    color: #0f766e;
+    text-decoration: none;
+    margin: 0 15px;
+    font-weight: bold;
+}
+
+main {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+
+.judul {
+    text-align: center;
+    color: #0f766e;
+    margin-bottom: 30px;
+}
+
+
+.book-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 700px;
+    margin: auto;
+}
+
+/* Kartu buku */
+.book-card {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px #ddd;
+}
+
+.book-card h2 {
+    color: #0f766e;
+    margin-top: 0;
+}
+
+.book-card p {
+    margin: 8px 0;
+}
+
+
+.button {
+    display: inline-block;
+    background: #0f766e;
+    color: white;
+    padding: 9px 15px;
+    margin-top: 12px;
+    border-radius: 7px;
+    text-decoration: none;
+}
+
+.button:hover {
+    background: #115e59;
+}
+
+
+.detail-card {
+    background: white;
+    max-width: 600px;
+    margin: auto;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px #ddd;
+}
+
+.detail-card h2 {
+    color: #0f766e;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    margin-top: 50px;
+    padding: 20px;
+    color: #64748b;
+}
+
+/* HP */
+@media (max-width: 700px) {
+    .book-container {
+        grid-template-columns: 1fr;
+    }
+}
+/* Beranda */
+.hero {
+    background: white;
+    max-width: 700px;
+    margin: 80px auto;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 3px 10px #ddd;
+    text-align: center;
+}
+
+.hero h2 {
+    color: #0f766e;
+    margin-bottom: 15px;
+}
+
+.hero p {
+    margin-bottom: 25px;
+    color: #475569;
+}

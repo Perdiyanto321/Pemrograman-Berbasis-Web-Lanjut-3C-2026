@@ -1,0 +1,155 @@
+:root {
+    --brand: #6d4c2f;
+    --brand-light: #f5ecdf;
+    --text: #2b2b2b;
+    --muted: #7a7a7a;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: "Segoe UI", Roboto, Arial, sans-serif;
+    color: var(--text);
+    background: #faf7f2;
+}
+
+.container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.app-header {
+    background: var(--brand);
+    color: #fff;
+    padding: 16px 0;
+}
+
+.app-name {
+    margin: 0;
+    font-size: 1.3rem;
+}
+
+.app-navbar {
+    background: #55371f;
+}
+
+.app-navbar a {
+    display: inline-block;
+    color: #f1e6d6;
+    text-decoration: none;
+    padding: 12px 16px;
+}
+
+.app-navbar a.active,
+.app-navbar a:hover {
+    color: #fff;
+    background: var(--brand);
+}
+
+/* Konten */
+.app-content {
+    padding: 32px 0 64px;
+}
+
+.hero {
+    background: var(--brand-light);
+    border-radius: 10px;
+    padding: 36px;
+    text-align: center;
+}
+
+.page-title {
+    margin-bottom: 20px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 18px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.btn-primary {
+    background: var(--brand);
+    color: #fff;
+    margin-top: 10px;
+}
+
+.btn-detail {
+    background: var(--brand);
+    color: #fff;
+    margin-top: 12px;
+}
+
+/* Grid & kartu buku */
+.grid-buku {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 18px;
+}
+
+.kartu-buku {
+    background: #fff;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, .1);
+    display: flex;
+    flex-direction: column;
+}
+
+.kartu-buku__judul {
+    margin: 0 0 4px;
+}
+
+.kartu-buku__penulis {
+    margin: 0 0 4px;
+    color: var(--muted);
+}
+
+.kartu-buku__tahun {
+    margin: 0 0 8px;
+    font-size: .9rem;
+    color: var(--muted);
+}
+
+.kartu-buku__kategori {
+    align-self: flex-start;
+    background: var(--brand-light);
+    color: var(--brand);
+    font-size: .75rem;
+    padding: 2px 10px;
+    border-radius: 999px;
+    margin-bottom: 8px;
+}
+
+.back-link {
+    display: inline-block;
+    margin-bottom: 16px;
+    color: var(--brand);
+    text-decoration: none;
+}
+
+.detail-buku {
+    background: #fff;
+    padding: 24px;
+    border-radius: 10px;
+}
+
+.alert-notfound {
+    background: #fdecea;
+    color: #b3261e;
+    padding: 16px;
+    border-radius: 8px;
+}
+
+.app-footer {
+    background: #eee2d2;
+    text-align: center;
+    padding: 16px 0;
+    color: var(--muted);
+}

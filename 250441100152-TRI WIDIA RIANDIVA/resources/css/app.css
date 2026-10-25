@@ -1,0 +1,290 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    overflow-x: hidden;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    background-color: white;
+    color: #000000;
+}
+
+.halaman-utama {
+    width: 100%;
+    min-height: calc(100vh - 120px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.halaman-utama h2 {
+    color: #ffffff;
+    font-size: 2.8rem;
+    font-weight: 900;
+    margin-bottom: 16px;
+    max-width: 800px;
+}
+
+.halaman-utama p {
+    color: #ffffff;
+    font-size: 1.1rem;
+    margin-bottom: 32px;
+    max-width: 600px;
+   
+}
+
+.btn-halaman-utama {
+    display: inline-block;
+    background-color: #000000;
+    color: #ffffff;
+    padding: 14px 36px;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 700;
+    text-decoration: none;
+  
+}
+
+.btn-halaman-utama:hover {
+    background-color: #394b70;
+}
+
+.container {
+    width: 90%;
+    max-width: 1100px;
+    padding: 0 24px;
+    margin: 0 auto;
+}
+
+.header-utama {
+    background-color: #000000;
+    color: #ffffff;
+    padding: 20px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav-bungkus {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;  
+    padding: 0 15px; 
+}
+
+.judul {
+    margin: 0;
+    font-size: 1rem;           
+    font-weight: 900;
+}
+
+.nav-utama {
+    background-color: transparent;
+    padding: 0px;
+}
+
+.nav-utama ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+}
+
+.nav-utama a {
+    color: #f8fafc;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.95rem;  
+}
+
+.nav-utama a:hover {
+    color: #6d7071;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.bagian-buku {
+    padding: 30px 0 50px 0;
+}
+
+.grid-buku {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 28px;
+}
+
+.card-buku {
+    background-color: #ffffff;
+    border-radius: 24px;
+    padding: 14px;
+}
+
+.cover-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 3 / 4.1;
+    border-radius: 18px;
+    overflow: hidden;
+    background-color: #e2e8f0;
+}
+
+.cover-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.cover-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 30px 14px 14px 14px;
+    background: linear-gradient(to top, rgba(15, 23, 42, 0.88) 0%,  transparent 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: visibility 0.3s ease;
+}
+
+.card-buku:hover .cover-overlay {
+    opacity: 1;
+    visibility: visible;
+}
+
+.btn-overlay-detail {
+    display: block;
+    width: 100%;
+    text-align: center;
+    background-color: #ffffff;
+    color: #0f172a;
+    font-size: 0.9rem;
+    padding: 8px 0;
+    border-radius: 10px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.btn-overlay-detail:hover {
+    background-color: #f1f5f9;
+}
+
+.card-info {
+    padding: 14px 4px 4px 4px;
+}
+
+.buku-judul {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #0f172a;
+    margin: 6px 0 2px 0;
+}
+
+.buku-subtext {
+    font-size: 0.85rem;
+    color: #64748b;
+    margin: 0;
+}
+
+.bagian-detail {
+    padding: 30px 0 50px 0;
+}
+
+.btn-kembali {
+    display: inline-block;
+    background-color: #000000;
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 600;
+    margin-bottom: 20px;
+    padding: 8px 20px;
+    border-radius: 15px;
+}
+
+.btn-kembali:hover {
+    color: #64748b;        
+}
+
+.kartu-detail {
+    background-color: #ffffff;
+    border-radius: 16px;
+    padding: 24px;
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+}
+
+.kartu-detail img {
+    width: 200px;
+    border-radius: 12px;
+    object-fit: cover;
+}
+
+.kartu-detail h2 {
+    margin: 0 0 6px 0;
+    color: #000000;
+}
+
+.kartu-detail p {
+    margin: 0 0 20px 0;
+    color: #64748b;
+}
+
+.table-detail {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table-detail th, .table-detail td {
+    padding: 8px 0;
+    text-align: left;
+}
+
+.table-detail th {
+    width: 120px;
+    color: #000000;
+}
+
+.btn-primary {
+    background-color: #000000;
+    color: #ffffff;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #323742;
+}
+
+.peringatan {
+    text-align: center;
+    min-height: 70vh; 
+}
+
+.peringatan h2 {
+    font-size: 1.8rem;
+    color: #1e293b;
+    margin-bottom: 12px;
+    font-weight: 700;
+}
+
+.footer {
+    background-color: #000000;
+    color: white;
+    text-align: center;
+}
+

@@ -1,0 +1,149 @@
+name: Auto Label & Assign PR Asprak
+
+on:
+  pull_request_target:
+    types: [opened, edited, synchronize, reopened]
+
+jobs:
+  label-and-assign:
+    name: Process Label, Assignee & Reviewer
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
+    steps:
+      - name: Auto Label, Assign, & Request Review
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const pr = context.payload.pull_request;
+            const prNumber = pr.number;
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+
+            const title = pr.title || '';
+            const branch = pr.head ? pr.head.ref : '';
+            const textToScan = `${title} ${branch}`;
+
+            console.log(`🔍 Scanning PR #${prNumber}: "${title}" (Branch: ${branch})`);
+
+            // --- DEFINISI ASPRAK & PATTERN REGEX ---
+            const asprakList = [
+              {
+                name: 'Kak Desty',
+                regex: /desty|destya|desti|kak[ _-]*desty|kak[ _-]*destya|kak[ _-]*desti/i,
+                label: 'asprak-kak-destya',
+                username: 'destyanurfaiza'
+              },
+              {
+                name: 'Kak Okta',
+                regex: /okta|oktavia|oktav|kak[ _-]*okta|kak[ _-]*oktavia|kak[ _-]*oktav/i,
+                label: 'asprak-kak-okta',
+                username: 'oktaviaputrirj'
+              },
+              {
+                name: 'Kak Edi',
+                regex: /edi|ediputra|kak[ _-]*edi|kak[ _-]*ediputra/i,
+                label: 'asprak-kak-edi',
+                username: 'Ediputra07'
+              }
+            ];
+
+            const allAsprakLabels = asprakList.map(a => a.label);
+            const allAsprakUsernames = asprakList.map(a => a.username);
+
+            // --- 1. PARSING ASPRAK ---
+            let targetAsprak = null;
+            for (const asprak of asprakList) {
+              if (asprak.regex.test(textToScan)) {
+                targetAsprak = asprak;
+                break;
+              }
+            }
+
+            // --- 2. PARSING MODUL (1 - 10) ---
+            let targetModulLabel = null;
+            const modulMatch = textToScan.match(/(?:modul|mdl|m)[ _-]*([0-9]+)/i);
+            if (modulMatch) {
+              targetModulLabel = `modul-${modulMatch[1]}`;
+            }
+
+            // Ambil label yang terpasang saat ini di PR
+            const currentLabels = pr.labels ? pr.labels.map(l => l.name) : [];
+            const labelsToAdd = [];
+            const labelsToRemove = [];
+
+            // --- AUTO CLEANUP ASPRAK LABELS ---
+            if (targetAsprak) {
+              // Hapus label asprak lain jika ada (misal diubah dari Okta ke Desty)
+              for (const asprakLabel of allAsprakLabels) {
+                if (asprakLabel !== targetAsprak.label && currentLabels.includes(asprakLabel)) {
+                  labelsToRemove.push(asprakLabel);
+                }
+              }
+              if (!currentLabels.includes(targetAsprak.label)) {
+                labelsToAdd.push(targetAsprak.label);
+              }
+            }
+
+            // --- AUTO CLEANUP MODUL LABELS ---
+            if (targetModulLabel) {
+              // Hapus label modul lain jika modul diubah
+              for (const cl of currentLabels) {
+                if (cl.startsWith('modul-') && cl !== targetModulLabel) {
+                  labelsToRemove.push(cl);
+                }
+              }
+              if (!currentLabels.includes(targetModulLabel)) {
+                labelsToAdd.push(targetModulLabel);
+              }
+            }
+
+            // --- ESEKUSI REMOVE OBSOLETE LABELS ---
+            for (const labelName of labelsToRemove) {
+              try {
+                console.log(`🗑️ Removing obsolete label: ${labelName}`);
+                await github.rest.issues.removeLabel({
+                  owner, repo, issue_number: prNumber, name: labelName
+                });
+              } catch (e) {
+                console.log(`⚠️ Failed to remove label ${labelName}: ${e.message}`);
+              }
+            }
+
+            // --- ESEKUSI ADD NEW LABELS ---
+            if (labelsToAdd.length > 0) {
+              console.log(`🏷️ Adding labels: ${labelsToAdd.join(', ')}`);
+              await github.rest.issues.addLabels({
+                owner, repo, issue_number: prNumber, labels: labelsToAdd
+              });
+            }
+
+            // --- ASSIGNEE & REVIEWER MANAGEMENT ---
+            if (targetAsprak) {
+              // 1. Assignee
+              const currentAssignees = pr.assignees ? pr.assignees.map(a => a.login) : [];
+              if (!currentAssignees.includes(targetAsprak.username)) {
+                console.log(`👤 Assigning PR to: ${targetAsprak.username}`);
+                await github.rest.issues.addAssignees({
+                  owner, repo, issue_number: prNumber, assignees: [targetAsprak.username]
+                });
+              }
+
+              // 2. Requested Reviewer
+              try {
+                const requestedReviewers = (pr.requested_reviewers || []).map(r => r.login);
+                if (!requestedReviewers.includes(targetAsprak.username)) {
+                  console.log(`👀 Requesting review from: ${targetAsprak.username}`);
+                  await github.rest.pulls.requestReviewers({
+                    owner, repo, pull_number: prNumber, reviewers: [targetAsprak.username]
+                  });
+                }
+              } catch (e) {
+                console.log(`⚠️ Note on Reviewer Request: ${e.message}`);
+              }
+            }
+
+            console.log('✅ Auto Labeling, Assignment, and Review Request completed successfully!');

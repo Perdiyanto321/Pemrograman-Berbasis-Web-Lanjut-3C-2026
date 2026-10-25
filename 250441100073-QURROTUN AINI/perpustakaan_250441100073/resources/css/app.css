@@ -1,0 +1,319 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+
+@theme {
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
+}
+/* ==========================================
+   PERPUSTAKAAN 250441100073
+   90s / Old Web Library Style
+   ========================================== */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background-color: #d8d0b8;
+    color: #2f2a20;
+    font-family: "Times New Roman", Times, serif;
+    font-size: 16px;
+}
+
+/* =========================
+   MAIN CONTAINER
+   ========================= */
+
+.container {
+    width: 92%;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* =========================
+   HEADER
+   ========================= */
+
+.header {
+    background-color: #4b5540;
+    color: #f5f0dc;
+    padding: 25px 0 20px;
+    border-bottom: 6px double #292e23;
+}
+
+.header h1 {
+    margin: 0;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 32px;
+    letter-spacing: 1px;
+}
+
+.header p {
+    margin: 8px 0 0;
+    color: #ddd5bd;
+    font-style: italic;
+}
+
+/* =========================
+   NAVBAR
+   ========================= */
+
+.navbar {
+    background-color: #6d302b;
+    border-bottom: 4px solid #3d211e;
+    padding: 0;
+}
+
+.navbar .container {
+    display: flex;
+}
+
+.navbar a {
+    display: block;
+    padding: 12px 20px;
+
+    color: #fff8df;
+    text-decoration: none;
+    font-weight: bold;
+
+    border-right: 1px solid #914c45;
+}
+
+.navbar a:hover {
+    background-color: #d1a64a;
+    color: #30261b;
+}
+
+/* =========================
+   CONTENT
+   ========================= */
+
+.content {
+    min-height: 65vh;
+
+    padding-top: 30px;
+    padding-bottom: 45px;
+}
+
+.content h2 {
+    margin: 0 0 10px;
+
+    color: #4b5540;
+    font-family: Georgia, "Times New Roman", serif;
+
+    font-size: 28px;
+
+    border-bottom: 3px double #6d302b;
+    padding-bottom: 8px;
+}
+
+.content > p {
+    margin-bottom: 25px;
+    color: #554d3d;
+}
+
+/* =========================
+   OLD SCHOOL BOX
+   ========================= */
+
+.hero {
+    background-color: #eee8d0;
+
+    padding: 30px;
+
+    border: 2px solid #554b38;
+
+    box-shadow:
+        inset 2px 2px 0 #fffbea,
+        inset -2px -2px 0 #aaa083;
+
+    border-radius: 0;
+}
+
+.hero h2 {
+    font-family: Georgia, "Times New Roman", serif;
+    color: #6d302b;
+
+    font-size: 30px;
+
+    border-bottom: 0;
+}
+
+.hero p {
+    line-height: 1.6;
+    max-width: 750px;
+}
+
+/* =========================
+   BOOK LIST
+   ========================= */
+
+.book-list {
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fit, minmax(280px, 1fr));
+
+    gap: 18px;
+}
+
+/* =========================
+   BOOK CARD
+   ========================= */
+
+.book-card {
+    background-color: #eee8d0;
+
+    padding: 20px;
+
+    border: 2px solid #665d49;
+
+    border-radius: 0;
+
+    box-shadow:
+        inset 2px 2px 0 #fffbea,
+        inset -3px -3px 0 #aaa083;
+
+    transition: none;
+}
+
+.book-card:hover {
+    background-color: #e7dfc4;
+}
+
+/* Garis dekoratif */
+
+.book-card::before {
+    content: "✦";
+
+    display: block;
+
+    color: #6d302b;
+
+    font-size: 18px;
+
+    margin-bottom: 5px;
+}
+
+.book-card h3 {
+    margin: 0 0 12px;
+
+    color: #4b5540;
+
+    font-family:
+        Georgia,
+        "Times New Roman",
+        serif;
+
+    font-size: 22px;
+
+    border-bottom: 1px dotted #756c57;
+
+    padding-bottom: 8px;
+}
+
+.book-card p {
+    margin: 7px 0;
+
+    color: #403a2e;
+
+    line-height: 1.4;
+}
+
+.book-card strong {
+    color: #6d302b;
+}
+
+/* =========================
+   OLD SCHOOL BUTTON
+   ========================= */
+
+.book-card a,
+.hero a {
+    display: inline-block;
+
+    margin-top: 15px;
+
+    padding: 7px 14px;
+
+    background-color: #d6caa9;
+
+    color: #30291f;
+
+    text-decoration: none;
+
+    font-family: "Times New Roman", Times, serif;
+
+    font-weight: bold;
+
+    border: 2px outset #eee8d0;
+}
+
+.book-card a:hover,
+.hero a:hover {
+    background-color: #d1a64a;
+    color: #211c15;
+}
+
+.book-card a:active,
+.hero a:active {
+    border-style: inset;
+}
+
+/* =========================
+   FOOTER
+   ========================= */
+
+.footer {
+    background-color: #4b5540;
+
+    color: #e5dec7;
+
+    padding: 20px 0;
+
+    text-align: center;
+
+    border-top: 6px double #292e23;
+}
+
+.footer p {
+    margin: 0;
+
+    font-size: 14px;
+}
+
+/* =========================
+   RESPONSIVE
+   ========================= */
+
+@media (max-width: 600px) {
+
+    .header h1 {
+        font-size: 25px;
+    }
+
+    .navbar .container {
+        flex-direction: column;
+    }
+
+    .navbar a {
+        border-right: none;
+        border-bottom: 1px solid #914c45;
+    }
+
+    .content {
+        padding-top: 25px;
+    }
+
+    .book-list {
+        grid-template-columns: 1fr;
+    }
+
+    .hero {
+        padding: 22px;
+    }
+}
