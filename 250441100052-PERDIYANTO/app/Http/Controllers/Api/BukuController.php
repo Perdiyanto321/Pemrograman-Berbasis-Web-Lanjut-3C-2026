@@ -4,15 +4,45 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Buku;
-use App\Http\Requests\StoreBukuRequest;
-use App\Http\Requests\UpdateBukuRequest;
+use App\Http\Resources\BukuResource;
 use Illuminate\Http\Request;
 
 class BukuController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    private function aturanValidasi(): array
+    {
+        return [
+            'kategori_id'  => ['required', 'exists:kategoris,id'],
+            'judul'        => ['required', 'string', 'min:3', 'max:150'],
+            'penulis'      => ['required', 'string', 'min:3', 'max:100'],
+            'tahun_terbit' => ['required', 'integer', 'between:1900,' . date('Y')],
+        ];
+    }
+
+    private function pesanValidasi(): array
+    {
+        return [
+            'required'             => ':Attribute wajib diisi.',
+            'kategori_id.exists'   => 'Kategori yang dipilih tidak valid.',
+            'judul.string'         => 'Judul buku harus berupa teks.',
+            'judul.min'            => 'Judul buku minimal 3 karakter',
+            'judul.max'            => 'Judul buku maksimal 150 karakter',
+            'penulis.string'       => 'Penulis harus berupa teks.',
+            'penulis.min'          => 'Penulis minimal 3 karakter',
+            'penulis.max'          => 'Penulis maksimal 100 karakter',
+            'tahun_terbit.integer' => 'Tahun terbit harus berupa bilangan bulat.',
+            'tahun_terbit.between' => 'Tahun terbit harus antara 1900 sampai ' . date('Y'),
+        ];
+    }
+
+    private function namaAtribut(): array
+    {
+        return [
+            'kategori_id'  => 'kategori',
+            'tahun_terbit' => 'tahun terbit',
+        ];
+    }
+
     public function index(Request $request)
     {
         $bukus = Buku::with('kategori')
@@ -30,22 +60,23 @@ class BukuController extends Controller
             ->paginate(10)
             ->withQueryString();
 
-        return response()->json($bukus);
+        return BukuResource::collection($bukus);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreBukuRequest $request)
+    public function store(Request $request)
     {
-        $buku = Buku::create($request->validated());
+        $data = $request->validate(
+            $this->aturanValidasi(),
+            $this->pesanValidasi(),
+            $this->namaAtribut()
+        );
 
-        return response()->json(['data' => $buku], 201);
+        $buku = Buku::create($data);
+        $buku->load('kategori');
+
+        return (new BukuResource($buku))->response()->setStatusCode(201);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show($id)
     {
         $buku = Buku::with(['kategori', 'peminjamans'])->find($id);
@@ -54,13 +85,31 @@ class BukuController extends Controller
             return response()->json(['message' => 'not found'], 404);
         }
 
-        return response()->json(['data' => $buku]);
+        return new BukuResource($buku);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateBukuRequest $request, $id)
+    public function update(Request $request, $id)
+    {
+        $aturan = array_map(
+            fn ($rule) => array_merge(['sometimes'], $rule),
+            $this->aturanValidasi()
+        );
+
+        $data = $request->validate($aturan, $this->pesanValidasi(), $this->namaAtribut());
+
+        $buku = Buku::find($id);
+
+        if (! $buku) {
+            return response()->json(['message' => 'not found'], 404);
+        }
+
+        $buku->update($data);
+        $buku->load('kategori');
+
+        return new BukuResource($buku);
+    }
+
+    public function destroy($id)
     {
         $buku = Buku::find($id);
 
@@ -68,33 +117,8 @@ class BukuController extends Controller
             return response()->json(['message' => 'not found'], 404);
         }
 
-        $buku->update($request->validated());
-
-        return response()->json(['data' => $buku]);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy($id)
-    {
-        $buku = Buku::find($id);
-
-        if (! $buku) {
-            return response()->json(['message' => 'buku tidak ada'], 404);
-        }
-
         $buku->delete();
 
         return response()->json(['message' => 'Buku berhasil dihapus']);
     }
 }
-
-// $buku = App\Models\Buku::create([
-//     'id'           => 9999,
-//     'created_at'   => '2000-01-01 00:00:00',
-//     'kategori_id'  => 1,
-//     'judul'        => 'Uji Mass Assignment',
-//     'penulis'      => 'Perdiyanto',
-//     'tahun_terbit' => 2020,
-// ]);

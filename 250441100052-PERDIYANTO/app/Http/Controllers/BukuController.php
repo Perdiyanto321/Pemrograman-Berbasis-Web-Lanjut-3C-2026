@@ -8,12 +8,9 @@ use Illuminate\Http\Request;
 class BukuController extends Controller
 {
 
-    public function index() {
-        $buku = Buku::join('kategoris', 'bukus.kategori_id', '=', 'kategoris.id')
-            ->select('bukus.*', 'kategoris.nama as kategori')
-            ->get();
-
-        return view('buku.index', ['buku' => $buku]);
+    public function index() 
+    {
+        return view('buku.index');
     }
 
     public function show($id) {

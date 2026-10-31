@@ -1,16 +1,20 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\BukuController;
-use App\Http\Controllers\BukuCrudController;
 
 Route::get('/', function () {
-    return view('home');
-}) ->name('home'); 
+    return view('welcome');
+});
 
-Route::get('/buku', [BukuController::class, 'index']) ->name('buku.index');
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/buku/{id}', [BukuController::class, 'show']) ->name('buku.show');
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
 
-Route::get('/kelola-buku', [BukuCrudController::class, 'index'])-> name('kelola-buku.index');
-
+require __DIR__.'/auth.php';
