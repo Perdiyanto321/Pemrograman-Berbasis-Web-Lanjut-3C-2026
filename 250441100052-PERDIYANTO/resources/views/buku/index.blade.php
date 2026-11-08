@@ -15,19 +15,42 @@
             <th>Tahun Terbit</th>
         </tr>
     </thead>
+
     <tbody id="tbody-buku">
-        <tr><td colspan="5">Memuat data...</td></tr>
+        @forelse ($bukus as $index => $buku)
+            <tr>
+                <td>{{ $index + 1 }}</td>
+                <td>{{ $buku->kategori->nama }}</td>
+
+                {{-- Sengaja menggunakan output tidak di-escape untuk demonstrasi XSS A1 --}}
+                <td><a href="/buku/{{ $buku->id }}">{!! $buku->judul !!}</a></td>
+
+                <td>{{ $buku->penulis }}</td>
+                <td>{{ $buku->tahun_terbit }}</td>
+            </tr>
+        @empty
+            <tr>
+                <td colspan="5">Belum ada data buku.</td>
+            </tr>
+        @endforelse
     </tbody>
 </table>
 
 <div class="paginasi">
-    <button type="button" id="btn-prev">&laquo; Sebelumnya</button>
-    <span id="info-halaman"></span>
-    <button type="button" id="btn-next">Berikutnya &raquo;</button>
+    <button type="button" id="btn-prev" disabled>
+        &laquo; Sebelumnya
+    </button>
+
+    <span id="info-halaman">
+        Halaman 1
+    </span>
+
+    <button type="button" id="btn-next" disabled>
+        Berikutnya &raquo;
+    </button>
 </div>
 @endsection
 
 @push('scripts')
     <script>const BISA_KELOLA = false;</script>
-    <script src="{{ asset('js/buku-client.js') }}"></script>
 @endpush

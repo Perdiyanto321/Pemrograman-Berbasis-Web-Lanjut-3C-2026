@@ -22,15 +22,11 @@ class PeminjamanController extends Controller
     }
 
     // Detail satu peminjaman: periksa kepemilikan
-    public function show(Peminjaman $peminjaman): View
+    public function show($id): View
     {
+        $peminjaman = Peminjaman::findOrFail($id);
+
         $peminjaman->load('buku', 'anggota');
-
-        $pemilik = $peminjaman->anggota !== null
-            && (int) $peminjaman->anggota->user_id === (int) auth()->id();
-
-        // Boleh jika pemilik, atau staf yang punya permission kelola peminjaman
-        abort_unless($pemilik || auth()->user()->can('kelola peminjaman'), 403);
 
         return view('peminjaman.show', compact('peminjaman'));
     }

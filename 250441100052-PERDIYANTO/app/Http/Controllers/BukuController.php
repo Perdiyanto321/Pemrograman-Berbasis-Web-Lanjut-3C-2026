@@ -4,13 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\Buku;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class BukuController extends Controller
 {
 
-    public function index() 
+    public function index()
     {
-        return view('buku.index');
+        $bukus = Buku::with('kategori')->get();
+
+        return view('buku.index', compact('bukus'));
     }
 
     public function show($id) {
@@ -21,5 +24,16 @@ class BukuController extends Controller
             ->first();
 
         return view('buku.show', ['buku' => $temu]);
+    }
+
+    public function cari(Request $request)
+    {
+        $judul = $request->query('judul');
+
+        $bukus = DB::select(
+            "SELECT * FROM bukus WHERE judul LIKE '%$judul%'"
+        );
+
+        return response()->json($bukus);
     }
 }

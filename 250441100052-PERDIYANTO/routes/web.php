@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PeminjamanController;
 use App\Http\Controllers\KelolaPeminjamanController;
 use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\Api\BukuController as ApiBukuController;
 
 Route::get('/', function () {
     return view('home');
@@ -72,7 +73,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/peminjaman', [PeminjamanController::class, 'store'])
         ->middleware('permission:mengajukan peminjaman buku')
         ->name('peminjaman.store');
-    });
 
     Route::get('/kelola-peminjaman', [KelolaPeminjamanController::class, 'index'])
         ->middleware('permission:kelola peminjaman')
@@ -97,5 +97,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/laporan', [LaporanController::class, 'index'])
         ->middleware('permission:lihat laporan perpustakaan')
         ->name('laporan.index');
+
+    Route::get('/buku-cari', [BukuController::class, 'cari'])
+        ->name('buku.cari');
+
+    Route::get('/buku/{id}/hapus', [ApiBukuController::class, 'destroy'])
+        ->middleware('permission:kelola data buku')
+        ->name('buku.hapus');
+    });
 
 require __DIR__.'/auth.php';
