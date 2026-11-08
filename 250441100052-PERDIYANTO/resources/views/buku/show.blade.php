@@ -18,4 +18,12 @@
     </div>
 @endif
 
+@can('mengajukan peminjaman buku')
+    <form method="POST" action="{{ route('peminjaman.store') }}">
+        @csrf
+        <input type="hidden" name="buku_id" value="{{ $buku['id'] }}">
+        <button type="submit">Ajukan Peminjaman</button>
+    </form>
+@endcan
+
 @endsection

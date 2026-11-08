@@ -1,31 +1,17 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <title>@yield('title', 'Judul Default')</title>
-    @vite(['resources/css/app.css'])
-</head>
-<body>
+<x-app-layout>
+    <x-slot name="header">
+        <h1 class="font-semibold text-xl text-gray-800 leading-tight">
+            @yield('title', 'Perpustakaan Perdi')
+        </h1>
+    </x-slot>
 
-    <div class="container">
-        <header>
-            <h1>Perpustakaan Perdi</h1>
-        </header>
-
-        <nav>
-            <a href="{{ route('home') }}">Beranda</a>
-            <a href="{{ route('buku.index') }}">Daftar Buku</a>
-        </nav>
+    <div class="konten max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8 overflow-x-auto">
+        @yield('content')
     </div>
 
-    <main>
-        @yield('content')
-    </main>
-
-    <footer>
-        <p>&copy; 2026 - Perdiyanto 250441100052</p>
+    <footer class="text-center text-sm text-gray-500 py-6">
+        &copy; 2026 - Perdiyanto 250441100052
     </footer>
 
     @stack('scripts')
-</body>
-</html>
+</x-app-layout>

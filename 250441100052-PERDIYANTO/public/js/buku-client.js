@@ -23,11 +23,16 @@ async function apiRequest(path, { method = 'GET', body = null } = {}) {
     const headers = { Accept: 'application/json' };
     if (body) headers['Content-Type'] = 'application/json';
 
+    // Token CSRF dari cookie XSRF-TOKEN, dikirim sebagai header
+    const xsrf = document.cookie.split('; ').find((c) => c.startsWith('XSRF-TOKEN='));
+    if (xsrf) headers['X-XSRF-TOKEN'] = decodeURIComponent(xsrf.split('=')[1]);
+
     let res;
     try {
         res = await fetch(API + path, {
             method,
             headers,
+            credentials: 'same-origin',
             body: body ? JSON.stringify(body) : undefined,
         });
     } catch {
@@ -42,16 +47,18 @@ async function apiRequest(path, { method = 'GET', body = null } = {}) {
     return data;
 }
 
-// untuk eror
+// untuk error
 
 function tanganiError(err) {
-    FIELD.forEach((f) => { $(`err-${f}`).textContent = ''; });
+    FIELD.forEach((f) => { if ($(`err-${f}`)) $(`err-${f}`).textContent = ''; });
 
     if (err.status === 422) {
         Object.entries(err.errors).forEach(([f, m]) => {
             if ($(`err-${f}`)) $(`err-${f}`).textContent = m.join(' ');
         });
         pesan('Data belum valid. Periksa isian formulir.', 'peringatan');
+    } else if (err.status === 403) {
+        pesan('Kamu tidak memiliki izin untuk aksi ini.', 'error');
     } else if (err.status === 404) {
         pesan('Data tidak ditemukan. Mungkin sudah dihapus.', 'peringatan');
         kosongkanForm();
@@ -88,13 +95,14 @@ async function muatBuku(page = 1) {
             <tr>
                 <td>${(json.meta.from ?? 1) + i}</td>
                 <td>${esc(b.kategori ?? '-')}</td>
-                <td>${esc(b.judul_buku)}</td>
+                <td><a href="/buku/${b.id}">${esc(b.judul_buku)}</a></td>
                 <td>${esc(b.penulis)}</td>
                 <td>${esc(b.tahun)}</td>
+                ${BISA_KELOLA ? `
                 <td>
                     <button type="button" data-aksi="ubah" data-id="${b.id}">Ubah</button>
                     <button type="button" class="btn-hapus" data-aksi="hapus" data-id="${b.id}">Hapus</button>
-                </td>
+                </td>` : ''}
             </tr>`).join('') || '<tr><td colspan="6">Belum ada data.</td></tr>';
 
         $('info-halaman').textContent = `Halaman ${json.meta.current_page} dari ${json.meta.last_page}`;
@@ -107,6 +115,7 @@ async function muatBuku(page = 1) {
 }
 
 function kosongkanForm() {
+    if (!BISA_KELOLA) return;
     $('form-buku').reset();
     $('buku-id').value = '';
     $('btn-simpan').textContent = 'Simpan';
@@ -115,7 +124,7 @@ function kosongkanForm() {
 
 function isiForm(b) {
     FIELD.forEach((f) => { $(`err-${f}`).textContent = ''; });
-   
+
     $('buku-id').value = b.id;
     $('buku-kategori_id').value = b.id_kategori ?? '';
     $('buku-judul').value = b.judul_buku ?? '';
@@ -174,19 +183,24 @@ async function hapus(id) {
 
 // inisialisasi
 document.addEventListener('DOMContentLoaded', async () => {
-    $('form-buku').onsubmit = simpan;
-    $('btn-batal').onclick = kosongkanForm;
     $('btn-prev').onclick = () => muatBuku(halaman - 1);
     $('btn-next').onclick = () => muatBuku(halaman + 1);
 
-    // Satu listener untuk semua tombol Ubah/Hapus (tombolnya dibuat ulang tiap tabel digambar)
-    $('tbody-buku').onclick = (e) => {
-        const tombol = e.target.closest('button[data-aksi]');
-        if (!tombol) return;
-        if (tombol.dataset.aksi === 'hapus') hapus(tombol.dataset.id);
-        else bukaFormUbah(tombol.dataset.id);
-    };
+    // Form, tombol Ubah/Hapus, dan daftar kategori hanya untuk yang boleh mengelola buku
+    if (BISA_KELOLA) {
+        $('form-buku').onsubmit = simpan;
+        $('btn-batal').onclick = kosongkanForm;
 
-    await muatKategori();
+        // Satu listener untuk semua tombol Ubah/Hapus (tombolnya dibuat ulang tiap tabel digambar)
+        $('tbody-buku').onclick = (e) => {
+            const tombol = e.target.closest('button[data-aksi]');
+            if (!tombol) return;
+            if (tombol.dataset.aksi === 'hapus') hapus(tombol.dataset.id);
+            else bukaFormUbah(tombol.dataset.id);
+        };
+
+        await muatKategori();
+    }
+
     await muatBuku(1);
 });

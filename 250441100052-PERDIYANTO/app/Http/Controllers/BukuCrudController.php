@@ -12,8 +12,7 @@ class BukuCrudController extends Controller
      */
     public function index()
     {
-        $bukus = Buku::with('kategori')->get();
-        return response()->json(['data' => $bukus]);
+        return view('buku.kelola');
     }
 
     /**
