@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Peminjaman;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 
 class PeminjamanController extends Controller
@@ -21,10 +23,12 @@ class PeminjamanController extends Controller
         return view('peminjaman.index', compact('peminjamans'));
     }
 
-    // Detail satu peminjaman: periksa kepemilikan
+    // Detail satu peminjaman: diperiksa menggunakan Policy
     public function show($id): View
     {
         $peminjaman = Peminjaman::findOrFail($id);
+
+        Gate::authorize('view', $peminjaman);
 
         $peminjaman->load('buku', 'anggota');
 
