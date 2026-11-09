@@ -106,4 +106,8 @@ Route::middleware('auth')->group(function () {
         ->name('buku.destroy');
     });
 
+Route::get('/uji-error', function () {
+    throw new RuntimeException('Tes error Soal 5');
+});
+
 require __DIR__.'/auth.php';

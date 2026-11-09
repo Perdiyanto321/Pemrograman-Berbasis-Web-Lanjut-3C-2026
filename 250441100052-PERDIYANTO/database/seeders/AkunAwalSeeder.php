@@ -9,11 +9,11 @@ class AkunAwalSeeder extends Seeder
 {
     public function run(): void
     {
-        $admin = User::firstOrCreate(
+        $admin = User::updateOrCreate(
             ['email' => 'admin@perpus.test'],
             [
                 'name' => 'Admin Perpustakaan',
-                'password' => 'password',
+                'password' => 'passwordadmin',
             ]
         );
         $admin->syncRoles('admin');
