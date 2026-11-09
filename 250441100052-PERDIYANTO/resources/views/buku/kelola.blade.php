@@ -61,6 +61,12 @@
     <span id="info-halaman"></span>
     <button type="button" id="btn-next">Berikutnya &raquo;</button>
 </div>
+
+<form id="form-hapus-buku" method="POST" style="display: none;">
+    @csrf
+    @method('DELETE')
+</form>
+
 @endsection
 
 @push('scripts')

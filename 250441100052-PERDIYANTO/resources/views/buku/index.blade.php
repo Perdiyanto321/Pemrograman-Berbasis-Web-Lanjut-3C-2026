@@ -21,9 +21,8 @@
             <tr>
                 <td>{{ $index + 1 }}</td>
                 <td>{{ $buku->kategori->nama }}</td>
-
-                {{-- Sengaja menggunakan output tidak di-escape untuk demonstrasi XSS A1 --}}
-                <td><a href="/buku/{{ $buku->id }}">{!! $buku->judul !!}</a></td>
+ 
+                <td><a href="/buku/{{ $buku->id }}">{{ $buku->judul }}</a></td>
 
                 <td>{{ $buku->penulis }}</td>
                 <td>{{ $buku->tahun_terbit }}</td>

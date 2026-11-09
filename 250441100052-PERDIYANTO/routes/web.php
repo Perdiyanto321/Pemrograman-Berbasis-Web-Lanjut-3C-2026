@@ -101,9 +101,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/buku-cari', [BukuController::class, 'cari'])
         ->name('buku.cari');
 
-    Route::get('/buku/{id}/hapus', [ApiBukuController::class, 'destroy'])
+    Route::delete('/buku/{id}', [ApiBukuController::class, 'destroy'])
         ->middleware('permission:kelola data buku')
-        ->name('buku.hapus');
+        ->name('buku.destroy');
     });
 
 require __DIR__.'/auth.php';

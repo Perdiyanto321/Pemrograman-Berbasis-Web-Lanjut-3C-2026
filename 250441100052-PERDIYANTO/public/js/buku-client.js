@@ -165,16 +165,57 @@ async function simpan(e) {
 
 // hapus data
 async function hapus(id) {
-    if (!confirm('Yakin ingin menghapus buku ini?')) return;   // dibatalkan: tidak ada request
+    if (!confirm('Yakin ingin menghapus buku ini?')) {
+        return;
+    }
+
+    const form = $('form-hapus-buku');
+
+    if (!form) {
+        pesan('Form penghapusan tidak ditemukan.', 'error');
+        return;
+    }
+
+    const token = form.querySelector('input[name="_token"]').value;
+
+    const formData = new FormData();
+    formData.append('_token', token);
+    formData.append('_method', 'DELETE');
 
     try {
-        const data = await apiRequest(`/buku/${id}`, { method: 'DELETE' });
+        const res = await fetch(`/buku/${id}`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+            },
+            credentials: 'same-origin',
+            body: formData,
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+            throw {
+                status: res.status,
+                message: data?.message ?? 'Gagal menghapus buku.',
+                errors: data?.errors ?? {},
+            };
+        }
+
         pesan(data?.message ?? 'Buku berhasil dihapus.');
-        if ($('buku-id').value === String(id)) kosongkanForm();
+
+        if ($('buku-id').value === String(id)) {
+            kosongkanForm();
+        }
+
         await muatBuku(halaman);
+
     } catch (err) {
         if (err.status >= 500) {
-            pesan('Buku tidak dapat dihapus. Kemungkinan buku masih memiliki data peminjaman.', 'error');
+            pesan(
+                'Buku tidak dapat dihapus. Kemungkinan buku masih memiliki data peminjaman.',
+                'error'
+            );
         } else {
             tanganiError(err);
         }
