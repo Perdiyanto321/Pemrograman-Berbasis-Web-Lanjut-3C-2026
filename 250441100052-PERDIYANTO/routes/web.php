@@ -24,7 +24,7 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::get('/kelola-buku', [BukuCrudController::class, 'index'])
-        ->middleware('permission:kelola data buku')
+        ->middleware('can:kelola-buku')
         ->name('kelola-buku.index');
 
     // Profil (permission dan kepemilikan ditambah di langkah profil)

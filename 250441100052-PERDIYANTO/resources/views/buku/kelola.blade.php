@@ -5,6 +5,7 @@
 @section('content')
 <div id="alert-area"></div>
 
+@can('kelola-buku')
 <form id="form-buku" class="form-buku" novalidate>
     <input type="hidden" id="buku-id">
 
@@ -39,6 +40,7 @@
         <button type="button" id="btn-batal">Batal</button>
     </div>
 </form>
+@endcan
 
 <table class="tabel-buku">
     <thead>
@@ -52,7 +54,9 @@
         </tr>
     </thead>
     <tbody id="tbody-buku">
-        <tr><td colspan="6">Memuat data...</td></tr>
+        <tr>
+            <td colspan="6">Memuat data...</td>
+        </tr>
     </tbody>
 </table>
 
@@ -62,14 +66,21 @@
     <button type="button" id="btn-next">Berikutnya &raquo;</button>
 </div>
 
+@can('kelola-buku')
 <form id="form-hapus-buku" method="POST" style="display: none;">
     @csrf
     @method('DELETE')
 </form>
+@endcan
 
 @endsection
 
 @push('scripts')
-    <script>const BISA_KELOLA = true;</script>
+    @can('kelola-buku')
+        <script>const BISA_KELOLA = true;</script>
+    @else
+        <script>const BISA_KELOLA = false;</script>
+    @endcan
+
     <script src="{{ asset('js/buku-client.js') }}"></script>
 @endpush

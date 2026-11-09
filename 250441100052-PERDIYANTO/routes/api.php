@@ -15,7 +15,7 @@ Route::middleware('auth:sanctum')->group(function () {
     });
 
     // Mengubah data buku: hanya admin dan petugas
-    Route::middleware('permission:kelola data buku')->group(function () {
+    Route::middleware('can:kelola-buku')->group(function () {
         Route::apiResource('buku', BukuController::class)
             ->only(['store', 'update', 'destroy'])
             ->names('api.buku');
