@@ -77,6 +77,7 @@
 
 @push('scripts')
     @can('kelola-buku')
+        @csrf
         <script>const BISA_KELOLA = true;</script>
     @else
         <script>const BISA_KELOLA = false;</script>

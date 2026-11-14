@@ -165,7 +165,7 @@ async function simpan(e) {
 
 // hapus data
 async function hapus(id) {
-    if (!confirm('Yakin ingin menghapus buku ini?')) {
+    if (!confirm('Yakinn ingin menghapus buku ini?')) {
         return;
     }
 

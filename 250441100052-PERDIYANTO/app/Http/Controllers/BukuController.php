@@ -32,7 +32,7 @@ class BukuController extends Controller
 
         $bukus = DB::select(
             "SELECT * FROM bukus WHERE judul LIKE ?",
-            ["%$judul%"]
+            ["%{$judul}%"]
         );
 
         return response()->json($bukus);

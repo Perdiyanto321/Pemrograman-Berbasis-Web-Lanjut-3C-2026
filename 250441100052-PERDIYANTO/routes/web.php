@@ -66,7 +66,7 @@ Route::middleware('auth')->group(function () {
         ->middleware('permission:melihat riwayat peminjaman sendiri')
         ->name('peminjaman.index');
 
-    Route::get('/peminjaman/{peminjaman}', [PeminjamanController::class, 'show'])
+    Route::get('/peminjaman/{id}', [PeminjamanController::class, 'show'])
         ->middleware('permission:melihat status peminjaman sendiri')
         ->name('peminjaman.show');
 
@@ -103,6 +103,21 @@ Route::middleware('auth')->group(function () {
 
     Route::delete('/buku/{id}', [ApiBukuController::class, 'destroy'])
         ->middleware('permission:kelola data buku')
+        ->name('buku.destroy');
+    
+    Route::delete('/buku/{id}/hapus', [ApiBukuController::class, 'destroy'])
+        ->middleware('auth');
+    
+    Route::get('/buku/create', [BukuCrudController::class, 'create'])
+        ->middleware('can:kelola-buku')
+        ->name('buku.create');
+
+    Route::get('/buku/{id}/edit', [BukuCrudController::class, 'edit'])
+        ->middleware('can:kelola-buku')
+        ->name('buku.edit');
+
+    Route::delete('/buku/{id}', [ApiBukuController::class, 'destroy'])
+        ->middleware('can:kelola-buku')
         ->name('buku.destroy');
     });
 

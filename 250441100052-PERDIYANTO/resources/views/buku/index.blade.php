@@ -13,6 +13,7 @@
             <th>Judul</th>
             <th>Penulis</th>
             <th>Tahun Terbit</th>
+            <th>Aksi</th>
         </tr>
     </thead>
 
@@ -26,10 +27,16 @@
 
                 <td>{{ $buku->penulis }}</td>
                 <td>{{ $buku->tahun_terbit }}</td>
+                <td>
+                    @can('kelola-buku')
+                        <a href="{{ route('kelola-buku.index') }}" class="btn btn-primary">
+                            Kelola Buku
+                        </a>
+                    @endcan
             </tr>
         @empty
             <tr>
-                <td colspan="5">Belum ada data buku.</td>
+                <td colspan="6">Belum ada data buku.</td>
             </tr>
         @endforelse
     </tbody>
